@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tech.Care — Patient Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="page">
+    <!-- ============ HEADER ============ -->
+    <header class="topbar">
+      <a href="#" class="topbar__logo"><img src="assets/logo.png" alt="Tech.Care" width="211" height="48" /></a>
+
+      <nav class="topbar__nav" aria-label="Main">
+        <a href="#" class="nav-link"><img src="assets/home.svg" alt="" class="ic ic--home" />Overview</a>
+        <a href="#" class="nav-link is-active"><img src="assets/group.svg" alt="" class="ic ic--group" />Patients</a>
+        <a href="#" class="nav-link"><img src="assets/calendar_today.svg" alt="" class="ic ic--calendar" />Schedule</a>
+        <a href="#" class="nav-link"><img src="assets/chat_bubble.svg" alt="" class="ic ic--chat" />Message</a>
+        <a href="#" class="nav-link nav-link--card"><img src="assets/credit_card.svg" alt="" class="ic ic--card" />Transactions</a>
+      </nav>
+
+      <div class="topbar__user">
+        <img src="assets/doctor.png" alt="Dr. Jose Simmons" class="topbar__avatar" width="44" height="44" />
+        <div class="topbar__user-info">
+          <p class="topbar__user-name">Dr. Jose Simmons</p>
+          <p class="topbar__user-role">General Practitioner</p>
+        </div>
+        <span class="topbar__divider" aria-hidden="true"></span>
+        <button class="icon-btn" aria-label="Settings"><img src="assets/settings.svg" alt="" class="ic ic--settings" /></button>
+        <button class="icon-btn" aria-label="More options"><img src="assets/more_vert.svg" alt="" class="ic ic--vert" /></button>
+      </div>
+    </header>
+
+    <!-- ============ MAIN GRID ============ -->
+    <main class="layout">
+      <!-- Patients list -->
+      <aside class="card patients">
+        <div class="patients__head">
+          <h2 class="card-title">Patients</h2>
+          <button class="icon-btn" aria-label="Search patients"><img src="assets/search.svg" alt="" class="ic ic--search" /></button>
+        </div>
+        <div class="scroll-wrap patients__scroll" data-thumb="100" data-track="true">
+          <ul class="patients__list scroll-area" id="patientList" aria-label="Patients">
+            <!-- rendered by JS -->
+          </ul>
+          <div class="scrollbar"><div class="scrollbar__thumb"></div></div>
+        </div>
+      </aside>
+
+      <!-- Center column -->
+      <section class="center">
+        <div class="card history">
+          <h2 class="card-title">Diagnosis History</h2>
+
+          <div class="bp">
+            <div class="bp__chart">
+              <div class="bp__head">
+                <h3 class="inner-title">Blood Pressure</h3>
+                <div class="range">
+                  <button class="range__btn" id="rangeBtn" aria-haspopup="listbox" aria-expanded="false">
+                    <span id="rangeLabel">Last 6 months</span>
+                    <img src="assets/expand_more.svg" alt="" class="ic ic--expand" />
+                  </button>
+                  <ul class="range__menu" id="rangeMenu" role="listbox">
+                    <li role="option" data-months="6" aria-selected="true">Last 6 months</li>
+                    <li role="option" data-months="12">Last year</li>
+                    <li role="option" data-months="0">All time</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="bp__canvas"><canvas id="bpChart" aria-label="Blood pressure chart" role="img"></canvas></div>
+            </div>
+
+            <div class="bp__legend">
+              <div class="bp__stat">
+                <p class="bp__label"><span class="dot dot--sys"></span>Systolic</p>
+                <p class="bp__value" id="sysValue">--</p>
+                <p class="level" id="sysLevel"></p>
+              </div>
+              <hr class="bp__rule" />
+              <div class="bp__stat">
+                <p class="bp__label"><span class="dot dot--dia"></span>Diastolic</p>
+                <p class="bp__value" id="diaValue">--</p>
+                <p class="level" id="diaLevel"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="vitals">
+            <article class="vital vital--resp">
+              <img src="assets/respiratory-rate.png" alt="" class="vital__icon" width="96" height="96" />
+              <p class="vital__name">Respiratory Rate</p>
+              <p class="vital__value" id="respValue">--</p>
+              <p class="level" id="respLevel"></p>
+            </article>
+            <article class="vital vital--temp">
+              <img src="assets/temperature.png" alt="" class="vital__icon" width="96" height="96" />
+              <p class="vital__name">Temperature</p>
+              <p class="vital__value" id="tempValue">--</p>
+              <p class="level" id="tempLevel"></p>
+            </article>
+            <article class="vital vital--heart">
+              <img src="assets/heart-bpm.png" alt="" class="vital__icon" width="96" height="96" />
+              <p class="vital__name">Heart Rate</p>
+              <p class="vital__value" id="heartValue">--</p>
+              <p class="level" id="heartLevel"></p>
+            </article>
+          </div>
+        </div>
+
+        <div class="card diagnostics">
+          <h2 class="card-title">Diagnostic List</h2>
+          <div class="table">
+            <div class="table__head">
+              <span>Problem/Diagnosis</span>
+              <span>Description</span>
+              <span>Status</span>
+            </div>
+            <div class="scroll-wrap table__scroll" data-thumb="100">
+              <ul class="table__body scroll-area" id="diagList"><!-- rendered by JS --></ul>
+              <div class="scrollbar"><div class="scrollbar__thumb"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right column -->
+      <aside class="right">
+        <div class="card profile">
+          <img src="" alt="" class="profile__photo" id="profilePhoto" width="200" height="200" />
+          <h2 class="card-title profile__name" id="profileName">&nbsp;</h2>
+          <ul class="profile__info">
+            <li><span class="info-ic"><img src="assets/calendar_today.svg" alt="" class="ic ic--calendar" /></span>
+              <div><p class="info-label">Date Of Birth</p><p class="info-value" id="dob"></p></div></li>
+            <li><span class="info-ic"><img src="assets/female.svg" alt="" class="ic ic--gender" id="genderIcon" /></span>
+              <div><p class="info-label">Gender</p><p class="info-value" id="gender"></p></div></li>
+            <li><span class="info-ic"><img src="assets/call.svg" alt="" class="ic ic--phone" /></span>
+              <div><p class="info-label">Contact Info.</p><p class="info-value" id="phone"></p></div></li>
+            <li><span class="info-ic"><img src="assets/call.svg" alt="" class="ic ic--phone" /></span>
+              <div><p class="info-label">Emergency Contacts</p><p class="info-value" id="emergency"></p></div></li>
+            <li><span class="info-ic"><img src="assets/verified_user.svg" alt="" class="ic ic--shield" /></span>
+              <div><p class="info-label">Insurance Provider</p><p class="info-value" id="insurance"></p></div></li>
+          </ul>
+          <button class="btn-primary">Show All Information</button>
+        </div>
+
+        <div class="card labs">
+          <h2 class="card-title">Lab Results</h2>
+          <div class="scroll-wrap labs__scroll" data-thumb="51">
+            <ul class="labs__list scroll-area" id="labList"><!-- rendered by JS --></ul>
+            <div class="scrollbar"><div class="scrollbar__thumb"></div></div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
