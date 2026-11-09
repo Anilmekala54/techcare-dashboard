@@ -181,7 +181,16 @@
           x: {
             grid: { display: false },
             border: { display: false },
-            ticks: { color: '#072635', font: tick, padding: 6, maxRotation: 0, autoSkip: false },
+            ticks: {
+              color: '#072635', font: tick, padding: 6, maxRotation: 0, autoSkip: true, autoSkipPadding: 8,
+              // shorter labels on narrow charts: "Oct, 2023" -> "Oct '23"
+              callback(value) {
+                const label = this.getLabelForValue(value);
+                if (this.chart.width >= 520) return label;
+                const [m, y] = label.split(', ');
+                return `${m} '${String(y).slice(2)}`;
+              },
+            },
           },
           y: {
             min, max,
@@ -263,6 +272,23 @@
   }
   function refreshScrollbars() { scrollbars.forEach((fn) => fn()); }
 
+  /* ---------------- mobile menu ---------------- */
+  function initMenu() {
+    const bar = $('.topbar');
+    const btn = $('#menuToggle');
+    btn.addEventListener('click', () => {
+      const open = bar.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open);
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && bar.classList.contains('is-open')) {
+        bar.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', false);
+      }
+    });
+  }
+
   /* ---------------- events ---------------- */
   function initEvents() {
     const list = $('#patientList');
@@ -286,6 +312,7 @@
   async function init() {
     initScrollbars();
     initRange();
+    initMenu();
     initEvents();
     try {
       patients = await fetchPatients();
